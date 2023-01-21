@@ -1,0 +1,57 @@
+delimiter $$
+drop procedure if exists testImportacionProcedure $$
+create procedure testImportacionProcedure()
+begin
+	if (select count(distinct r.circuitId) from f1_local_olap.races as r) <> (select count(distinct c.circuitId) from f1_local.circuits as c) then
+		insert into errorLogger (message, date) values ('Error en la tabla circuits', current_date());
+    end if;
+    
+	if (select count(distinct r.constructorResultsId) from f1_local_olap.results as r) < (select count(distinct cr.constructorResultsId) from f1_local.constructorResults as cr) then
+		insert into errorLogger (message, date) values ('Error en la tabla constructorResults', current_date());
+    end if;
+    
+    if (select count(distinct r.constructorStandingsId) from f1_local_olap.results as r) < (select count(distinct cs.constructorStandingsId) from f1_local.constructorStandings as cs) then
+		insert into errorLogger (message, date) values ('Error en la tabla constructorStandings', current_date());
+    end if;
+    
+    if (select count(distinct r.constructorId) from f1_local_olap.results as r) < (select count(distinct c.constructorId) from f1_local.constructors as c) then
+		insert into errorLogger (message, date) values ('Error en la tabla constructors', current_date());
+    end if;
+
+	if (select count(distinct r.driverStandingsId) from f1_local_olap.results as r) < (select count(distinct ds.driverStandingsId) from f1_local.driverStandings as ds) then
+		insert into errorLogger (message, date) values ('Error en la tabla driverStandings', current_date());
+    end if;
+
+    if (select count(distinct r.driverId) from f1_local_olap.results as r) < (select count(distinct d.driverId) from f1_local.drivers as d) then
+		insert into errorLogger (message, date) values ('Error en la tabla drivers', current_date());
+    end if;
+    
+    if (select count(distinct lt.raceId) from f1_local_olap.lapTimes as lt) < (select count(distinct lt.raceId) from f1_local.lapTimes as lt) then
+		insert into errorLogger (message, date) values ('Error en la tabla lapTimes', current_date());
+    end if;
+    
+    if (select count(distinct ps.raceId) from f1_local_olap.pitStops as ps) < (select count(distinct ps.raceId) from f1_local.pitStops as ps) then
+		insert into errorLogger (message, date) values ('Error en la tabla pitStops', current_date());
+    end if;
+    
+    if (select count(distinct r.qualifyId) from f1_local_olap.results as r) < (select count(distinct q.qualifyId) from f1_local.qualifying as q) then
+		insert into errorLogger (message, date) values ('Error en la tabla qualifying', current_date());
+    end if;
+    
+    if (select count(distinct r.raceId) from f1_local_olap.races as r) < (select count(distinct ra.raceId) from f1_local.races as ra) then
+		insert into errorLogger (message, date) values ('Error en la tabla races', current_date());
+    end if;
+    
+    if (select count(distinct r.resultId) from f1_local_olap.results as r) < (select count(distinct r.resultId) from f1_local.results as r) then
+		insert into errorLogger (message, date) values ('Error en la tabla results', current_date());
+    end if;
+    
+    if (select count(distinct r.year) from f1_local_olap.races as r) < (select count(distinct s.year) from f1_local.seasons as s) then
+		insert into errorLogger (message, date) values ('Error en la tabla seasons', current_date());
+    end if;
+    
+    if (select count(distinct r.statusId) from f1_local_olap.results as r) < (select count(distinct s.statusId) from f1_local.status as s) then
+		insert into errorLogger (message, date) values ('Error en la tabla status', current_date());
+    end if;
+end $$
+delimiter ;

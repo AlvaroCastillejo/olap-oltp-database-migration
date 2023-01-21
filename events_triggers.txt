@@ -1,0 +1,195 @@
+OLAP
+drop event if exists testImportacion;
+create event testImportacion on schedule every 24 hour
+starts '2020-01-01 06:00:00' on completion preserve
+	do call f1_local_olap.testImportacionProcedure();
+
+OLTP
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.lapTimesTrigger $$
+CREATE TRIGGER lapTimesTrigger AFTER INSERT ON lapTimes
+FOR EACH ROW BEGIN
+	INSERT INTO F1_local_OLAP.lapTimes(raceId,driverId,lap,position,time,milliseconds) 
+    VALUES (new.raceId,new.driverId,new.lap,new.position,new.time,new.milliseconds);
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.pitStopsTrigger $$
+CREATE TRIGGER pitStopsTrigger AFTER INSERT ON pitStops
+FOR EACH ROW BEGIN
+	INSERT INTO F1_local_OLAP.pitStops(raceId,driverId,stop,lap,time,duration,milliseconds) 
+    VALUES (new.raceId,new.driverId,new.stop,new.lap,new.time,new.duration,new.milliseconds);
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.racesTrigger $$
+CREATE TRIGGER racesTrigger AFTER INSERT ON races
+FOR EACH ROW BEGIN
+	#if (select count(F1_local_OLAP.races.raceId) from F1_local_OLAP.races where raceId = new.raceId) <> 0 then
+		INSERT INTO F1_local_OLAP.races(raceId,year,round,circuitId,nameRace,date,time,urlRace) 
+		VALUES (new.raceId,new.year,new.round,new.circuitId,new.name,new.date,new.time,new.url);
+    #else
+	#	INSERT INTO F1_local_OLAP.races(raceId) 
+	#	VALUES (new.raceId);
+    #end if;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.circuitTrigger $$
+CREATE TRIGGER circuitTrigger AFTER INSERT ON circuits
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.races.circuitId) from F1_local_OLAP.races where F1_local_OLAP.races.circuitId = new.circuitId) <> 0 then
+		UPDATE F1_local_OLAP.races 
+		SET F1_local_OLAP.races.circuitRef = new.circuitRef, F1_local_OLAP.races.nameCircuit = new.name, F1_local_OLAP.races.location = new.location, F1_local_OLAP.races.country = new.country, F1_local_OLAP.races.lat = new.lat, F1_local_OLAP.races.lng = new.lng, F1_local_OLAP.races.alt = new.alt, F1_local_OLAP.races.urlCircuit = new.url
+    WHERE F1_local_OLAP.races.circuitId = new.circuitId;
+    else
+		INSERT INTO F1_local_OLAP.races(raceId,year,round,circuitId,nameRace,date,time,urlRace) 
+		VALUES (0, 0, 0, new.circuitId, 0, '2009-01-01', '', '');
+    end if;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.seasonTrigger $$
+CREATE TRIGGER seasonTrigger AFTER INSERT ON seasons
+FOR EACH ROW BEGIN
+    if (select count(F1_local_OLAP.races.year) from F1_local_OLAP.races where F1_local_OLAP.races.year = new.year) <> 0 then
+		UPDATE F1_local_OLAP.races 
+		SET F1_local_OLAP.races.year = new.year, F1_local_OLAP.races.urlSeason = new.url
+		WHERE F1_local_OLAP.races.year = new.year;
+	else 
+		INSERT INTO F1_local_OLAP.races(year) 
+		VALUES (new.year);
+    end if;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.resultsTrigger $$
+CREATE TRIGGER resultsTrigger AFTER INSERT ON results
+FOR EACH ROW BEGIN
+	INSERT INTO F1_local_OLAP.results(resultId, raceId, driverId,constructorId,numberResult,grid,positionResult,positionTextResult,positionOrderResult,pointsResults,laps,time,milliseconds,fastestLap,rank,fastestLapTime,fastestLapSpeed,statusId) 
+	VALUES (new.resultId,new.raceId,new.driverId,new.constructorId,new.number,new.grid,new.position,new.positionText,new.positionOrder,new.points,new.laps,new.time,new.milliseconds,new.fastestLap,new.rank,new.fastestLapTime,new.fastestLapSpeed,new.statusId);
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.driversTrigger $$
+CREATE TRIGGER driversTrigger AFTER INSERT ON drivers
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.results.driverId) from F1_local_OLAP.results where driverId = new.driverId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.driverRef = new.driverRef, F1_local_OLAP.results.numberDriver = new.number, F1_local_OLAP.results.code = new.code, F1_local_OLAP.results.forename = new.forename, F1_local_OLAP.results.surname = new.surname, F1_local_OLAP.results.dob = new.dob, F1_local_OLAP.results.nationalityDriver = new.nationality, F1_local_OLAP.results.urlDriver = new.url
+		WHERE F1_local_OLAP.results.driverId = new.driverId;
+    else
+		INSERT INTO F1_local_OLAP.results(driverId) 
+		VALUES (new.driverId);
+    end if;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.driverStandingsTrigger $$
+CREATE TRIGGER driverStandingsTrigger AFTER INSERT ON driverStandings
+FOR EACH ROW BEGIN
+	#if (select count(F1_local_OLAP.results.driverStandingsId) from F1_local_OLAP.results where F1_local_OLAP.results.driverId = new.driverId and F1_local_OLAP.results.raceId = new.raceId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.driverStandingsId = new.driverStandingsId, F1_local_OLAP.results.pointsDS = new.points, F1_local_OLAP.results.positionDS = new.position, F1_local_OLAP.results.positionTextDS = new.positionText, F1_local_OLAP.results.winsDS = new.wins
+		WHERE F1_local_OLAP.results.driverId = new.driverId and F1_local_OLAP.results.raceId = new.raceId;
+	#else
+	#	INSERT INTO F1_local_OLAP.results(driverStandingsId) 
+	#	VALUES (new.driverStandingsId);
+    #end if;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.constructorsTrigger $$
+CREATE TRIGGER constructorsTrigger AFTER INSERT ON constructors
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.results.constructorId) from F1_local_OLAP.results where F1_local_OLAP.results.constructorId = new.constructorId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.constructorRef = new.constructorRef, F1_local_OLAP.results.name = new.name, F1_local_OLAP.results.nationalityConstructor = new.nationality, F1_local_OLAP.results.urlConstructor = new.url
+		WHERE F1_local_OLAP.results.constructorId = new.constructorId;
+    else
+		INSERT INTO F1_local_OLAP.results(constructorId) 
+		VALUES (new.constructorId);
+    end if; 
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.constructorStandingsTrigger $$
+CREATE TRIGGER constructorStandingsTrigger AFTER INSERT ON constructorStandings
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.results.constructorId) from F1_local_OLAP.results where F1_local_OLAP.results.constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.constructorStandingsId = new.constructorStandingsId, F1_local_OLAP.results.pointsCS = new.points, F1_local_OLAP.results.positionCS = new.position, F1_local_OLAP.results.positionTextCS = new.positionText, F1_local_OLAP.results.winsCS = new.wins
+		WHERE F1_local_OLAP.results.constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId;
+    else
+		INSERT INTO F1_local_OLAP.results(constructorStandingsId) 
+		VALUES (new.constructorStandingsId);
+    end if;  
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.constructorResultsTrigger $$
+CREATE TRIGGER constructorResultsTrigger AFTER INSERT ON constructorResults
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.results.constructorId) from F1_local_OLAP.results where constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.constructorResultsId = new.constructorResultsId, F1_local_OLAP.results.pointsCR = new.points, F1_local_OLAP.results.statusCR = new.status
+		WHERE F1_local_OLAP.results.constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId;
+    else
+		INSERT INTO F1_local_OLAP.results(constructorResultsId) 
+		VALUES (new.constructorResultsId);
+    end if;  
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.qualifyingTrigger $$
+CREATE TRIGGER qualifyingTrigger AFTER INSERT ON qualifying
+FOR EACH ROW BEGIN
+	#if (select count(F1_local_OLAP.results.qualifyId) from F1_local_OLAP.results where F1_local_OLAP.results.constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId and F1_local_OLAP.results.driverId = new.driverId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.qualifyId = new.qualifyId, F1_local_OLAP.results.numberQualifying = new.number, F1_local_OLAP.results.positionQualifying = new.position, F1_local_OLAP.results.q1 = new.q1, F1_local_OLAP.results.q2 = new.q2, F1_local_OLAP.results.q3 = new.q3
+		WHERE F1_local_OLAP.results.constructorId = new.constructorId and F1_local_OLAP.results.raceId = new.raceId and F1_local_OLAP.results.driverId = new.driverId;
+    #else
+	#	INSERT INTO F1_local_OLAP.results(qualifyId) 
+	#	VALUES (new.qualifyId);
+    #end if;  
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS F1_local.statusTrigger $$
+CREATE TRIGGER statusTrigger AFTER INSERT ON status
+FOR EACH ROW BEGIN
+	if (select count(F1_local_OLAP.results.statusId) from F1_local_OLAP.results where statusId = new.statusId) <> 0 then
+		UPDATE F1_local_OLAP.results 
+		SET F1_local_OLAP.results.status = new.status
+		WHERE F1_local_OLAP.results.statusId = new.statusId;
+    else
+		INSERT INTO F1_local_OLAP.results(statusId) 
+		VALUES (new.statusId);
+    end if;  
+END
+$$
+DELIMITER ;

@@ -1,0 +1,20 @@
+drop user if exists 'analytic_user';
+CREATE USER 'analytic_user';
+drop user if exists 'manager_user';
+CREATE USER 'manager_user';
+drop user if exists 'rrhh_user';
+CREATE USER 'rrhh_user';
+
+grant select, create view, show view
+on f1_local_olap.*
+to analytic_user;
+
+grant insert, update
+on f1_local.* 
+to manager_user;
+
+grant insert, update
+on f1_local_olap.* 
+to manager_user;
+
+grant create user on *.* to 'rrhh_user';

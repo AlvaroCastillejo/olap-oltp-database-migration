@@ -1,0 +1,33 @@
+#&&1
+select r.statusId from results as r
+where r.raceId is null and statusId is not null;
+
+#&&2
+select r.nationalityDriver, AVG(ps.duration)
+from results as r inner join pitStops as ps on r.driverId = ps.driverId
+group by r.driverId, ps.driverId
+order by (avg(ps.duration)) asc
+limit 3;
+
+#&&3
+select r.forename, r.surname
+from results as r
+where r.q3 > r.q2 and r.q2 > r.q1
+and r.fastestLapTime > any (select r1.q1 from results as r1 where r1.raceId = r.raceId and r1.driverId <> r.driverId) 
+and r.fastestLapTime > any (select r2.q2 from results as r2 where r2.raceId = r.raceId and r2.driverId <> r.driverId) 
+and r.fastestLapTime > any (select r3.q3 from results as r3 where r3.raceId = r.raceId and r3.driverId <> r.driverId)
+and r.positionResult > 4
+group by r.driverId;
+
+#&&4
+select r.forename, r.surname, r.fastestLapSpeed, r.fastestLapTime, races.nameCircuit
+from results as r inner join lapTimes as lt on (r.driverId = lt.driverId and r.fastestLap = lt.lap), races
+where r.raceId = lt.raceId;
+
+
+#&&5
+select distinct r.forename, r.surname, rac.nameCircuit, rac.year
+from results as r inner join lapTimes as lt on lt.raceId = r.raceId inner join races as rac on rac.raceId = r.raceId
+and lt.driverId = r.driverId
+having MAX((select lt1.position from lapTimes as lt1 where lt1.raceId = lt.raceId and lt1.driverId = lt.driverId and lt1.lap <> 1 order by (lt1.lap) desc limit 1)
+		- (select lt1.position from lapTimes as lt1 where lt1.raceId = lt.raceId and lt1.driverId = lt.driverId and lt1.lap <> 1 order by (lt1.lap) asc limit 1));

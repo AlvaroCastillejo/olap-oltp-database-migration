@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8ece4f25-4e53-4f1b-a81f-e281e281580b" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1cgIMvlP43pf7mflsYH0L5Pa1b7" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Documentos\auniversidad\3\BBDD\Practica2" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="db" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Documentos\auniversidad\3\BBDD\Practica2\src" />
+      <recent name="F:\Documentos\auniversidad\3\BBDD\Practica2\src\Utils" />
+      <recent name="F:\Documentos\auniversidad\3\BBDD\Practica2\libs" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Practica2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8ece4f25-4e53-4f1b-a81f-e281e281580b" name="Default Changelist" comment="" />
+      <created>1590943764416</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590943764416</updated>
+      <workItem from="1590943768855" duration="1032000" />
+      <workItem from="1590945663366" duration="32000" />
+      <workItem from="1590945697632" duration="1119000" />
+      <workItem from="1591021741230" duration="41000" />
+      <workItem from="1591955854350" duration="1671000" />
+      <workItem from="1591957532252" duration="11377000" />
+      <workItem from="1592128701336" duration="6642000" />
+      <workItem from="1592476980866" duration="4847000" />
+      <workItem from="1592557240545" duration="3465000" />
+      <workItem from="1592645501693" duration="2790000" />
+      <workItem from="1592765033926" duration="35000" />
+      <workItem from="1594138505872" duration="6186000" />
+      <workItem from="1594218917209" duration="16771000" />
+      <workItem from="1594312229808" duration="98000" />
+      <workItem from="1594314684190" duration="2275000" />
+      <workItem from="1594404208922" duration="6758000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="579" y="192" key="FileChooserDialogImpl" timestamp="1590945751313">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="579" y="192" key="FileChooserDialogImpl/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1590945751313" />
+    <state width="1867" height="237" key="GridCell.Tab.0.bottom" timestamp="1594414997023">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="237" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594414997023" />
+    <state width="1867" height="237" key="GridCell.Tab.0.center" timestamp="1594414997023">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="237" key="GridCell.Tab.0.center/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594414997023" />
+    <state width="1867" height="237" key="GridCell.Tab.0.left" timestamp="1594414997023">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="237" key="GridCell.Tab.0.left/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594414997023" />
+    <state width="1867" height="237" key="GridCell.Tab.0.right" timestamp="1594414997023">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="237" key="GridCell.Tab.0.right/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594414997023" />
+    <state width="1867" height="325" key="GridCell.Tab.1.bottom" timestamp="1594410636889">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="325" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594410636889" />
+    <state width="1867" height="325" key="GridCell.Tab.1.center" timestamp="1594410636889">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="325" key="GridCell.Tab.1.center/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594410636889" />
+    <state width="1867" height="325" key="GridCell.Tab.1.left" timestamp="1594410636889">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="325" key="GridCell.Tab.1.left/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594410636889" />
+    <state width="1867" height="325" key="GridCell.Tab.1.right" timestamp="1594410636889">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1867" height="325" key="GridCell.Tab.1.right/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594410636889" />
+    <state x="312" y="0" key="SettingsEditor" timestamp="1590945754405">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="312" y="0" key="SettingsEditor/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1590945754405" />
+    <state x="571" y="292" key="com.intellij.ide.util.TipDialog" timestamp="1594404208737">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="571" y="292" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1594404208737" />
+    <state x="566" y="185" width="787" height="670" key="find.popup" timestamp="1591957128126">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="566" y="185" width="787" height="670" key="find.popup/0.0.1920.1040/-1028.-2160.1280.680/-1920.0.1920.1160@0.0.1920.1040" timestamp="1591957128126" />
+  </component>
+</project>
